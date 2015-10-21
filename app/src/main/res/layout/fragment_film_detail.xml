@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			xmlns:android="http://schemas.android.com/apk/res/android"
+			android:background="@color/white">
+
+	<RelativeLayout
+				  android:layout_width="match_parent"
+				  android:layout_height="wrap_content">
+
+		<ImageView
+			android:id="@+id/ivFilmBackground"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="@drawable/avengers_background"/>
+
+		<ImageView
+			android:id="@id/ivFilmCover"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:background="@drawable/avengers_cover"
+			android:layout_below="@id/ivFilmBackground"
+			android:layout_marginLeft="25dp"
+			android:layout_marginTop="-25dp"
+			android:elevation="4dp"/>
+
+		<android.support.design.widget.FloatingActionButton
+			android:id="@+id/fbAddProduct"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="@dimen/fab_margin"
+			android:layout_marginRight="@dimen/fab_margin"
+			android:layout_alignParentRight="true"
+			android:layout_alignParentEnd="true"
+			android:src="@drawable/ic_fb_plus"
+			android:layout_below="@id/ivFilmBackground"
+			android:layout_marginTop="-30dp"
+			android:elevation="6dp"/>
+
+		<View
+			android:layout_width="wrap_content"
+			android:layout_height="140dp"
+			android:background="@color/primaryColor"
+			android:layout_below="@id/ivFilmBackground"/>
+
+
+		<TextView
+			android:id="@+id/tvFilmName"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="The Avengers \nAge of ultron"
+			android:layout_below="@id/ivFilmBackground"
+			android:layout_toRightOf="@id/ivFilmCover"
+			android:layout_marginLeft="15dp"
+			android:layout_marginTop="20dp"
+			android:textSize="20sp"
+			android:singleLine="false"
+			android:textColor="@color/white"/>
+
+		<TextView
+			android:id="@+id/tvFilmYear"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="2015"
+			android:layout_toRightOf="@id/tvFilmName"
+			android:layout_below="@id/ivFilmBackground"
+			android:layout_marginTop="50dp"
+			android:textColor="@color/white"/>
+
+		<TextView
+			android:id="@+id/tvFilmDirector"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Joss Wheldon"
+			android:layout_below="@id/tvFilmName"
+			android:layout_toRightOf="@id/ivFilmCover"
+			android:layout_marginTop="10dp"
+			android:layout_marginLeft="15dp"
+			android:textColor="@color/white"/>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_below="@id/ivFilmCover"
+			android:layout_marginTop="30dp"
+			android:layout_marginLeft="15dp"
+			android:orientation="vertical">
+
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Cast"/>
+
+			<LinearLayout
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="15dp"
+				android:orientation="horizontal">
+
+				<ImageView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:background="@drawable/actor1"
+					/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Robert Downey Jr."
+					android:layout_marginLeft="20dp"
+					android:layout_marginTop="25dp"/>
+
+			</LinearLayout>
+
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Overview"
+				android:layout_marginTop="30dp"/>
+
+			<TextView
+				android:id="@+id/tvFilmOverview"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="When Tony Stark tries to jumpstart a dormant peacekeeping program, things go awry and Earth’s Mightiest Heroes are put to the ultimate test as the fate of the planet hangs in the balance. As the villainous Ultron emerges, it is up to The Avengers to stop him from enacting his terrible plans, and soon uneasy alliances and unexpected action pave the way for an epic and unique global adventure."
+				android:layout_marginTop="10dp"/>
+
+		</LinearLayout>
+
+
+	</RelativeLayout>
+</ScrollView>
