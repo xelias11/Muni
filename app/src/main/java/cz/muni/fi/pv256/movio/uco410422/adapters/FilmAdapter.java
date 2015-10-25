@@ -1,20 +1,16 @@
 package cz.muni.fi.pv256.movio.uco410422.adapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import java.util.List;
 
 import cz.muni.fi.pv256.movio.uco410422.R;
-import cz.muni.fi.pv256.movio.uco410422.activities.MainActivity;
 import cz.muni.fi.pv256.movio.uco410422.fragments.DetailFilmFragment;
 import cz.muni.fi.pv256.movio.uco410422.models.Film;
 
@@ -71,11 +67,16 @@ public class FilmAdapter extends BaseAdapter {
 			@Override
 			public void onClick(final View v) {
 				DetailFilmFragment detailFilmFrag = new DetailFilmFragment();
-				FragmentTransaction fragmentTransaction = null;
-				fragmentTransaction = fragmentManager.beginTransaction();
-				fragmentTransaction.replace(R.id.fragmentLayout, detailFilmFrag);
+				FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+				if (mContext.getResources().getBoolean(R.bool.dual_pane)) {
+					fragmentTransaction.replace(R.id.fragmentDetailLayout, detailFilmFrag);
+				} else {
+					fragmentTransaction.replace(R.id.fragmentListLayout, detailFilmFrag);
+				}
 				fragmentTransaction.addToBackStack(null);
 				fragmentTransaction.commit();
+
 			}
 		});
 		return convertView;

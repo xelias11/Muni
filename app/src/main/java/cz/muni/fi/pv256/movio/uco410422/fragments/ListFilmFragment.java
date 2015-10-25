@@ -4,12 +4,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -62,6 +64,17 @@ public class ListFilmFragment extends Fragment {
 			}
 		});
 
+		//mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+		//	@Override
+		//	public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
+		//		DetailFilmFragment detailFilmFrag = new DetailFilmFragment();
+		//		FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+		//		fragmentTransaction.replace(R.id.fragmentLayout, detailFilmFrag);
+		//		fragmentTransaction.addToBackStack(null);
+		//		fragmentTransaction.commit();
+		//	}
+		//});
+
 		ViewStub empty = (ViewStub) v.findViewById(R.id.empty);
 		mGridView.setEmptyView(empty);
 	}
@@ -78,11 +91,10 @@ public class ListFilmFragment extends Fragment {
 		mFilms.add(mFilm2);
 		mFilms.add(mFilm3);
 
-		if (!Connections.isOnline(getActivity()) && mFilms.size() == 0){
-			//LayoutInflater inflater = LayoutInflater.from(this);
-			//View v = inflater.inflate(R.layout.empty_view, null);
-			//TextView emptyText = (TextView) v.findViewById(R.id.emptyViewText);
-			//emptyText.setText("Ziadne pripojenie");
+		if (!Connections.isOnline(getActivity())){
+			ViewStub empty = (ViewStub) v.findViewById(R.id.empty);
+			empty.setLayoutResource(R.layout.no_connection_view);
+			empty.inflate();
 
 		}
 

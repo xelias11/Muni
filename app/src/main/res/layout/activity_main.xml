@@ -1,19 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context=".MainActivity"
-    android:weightSum="1">
-
+    android:layout_height="match_parent" tools:context=".MainActivity">
 
     <FrameLayout
-        android:id="@+id/fragmentLayout"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="0.5"/>
-
-    <FrameLayout
-        android:id="@+id/fragmentLayoutTablet"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="0.5"/>
+        android:id="@+id/fragmentListLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

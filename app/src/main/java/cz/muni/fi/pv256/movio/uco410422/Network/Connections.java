@@ -13,10 +13,6 @@ public class Connections {
 		//check network connections
 		ConnectivityManager connMan = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo ni = connMan.getActiveNetworkInfo();
-		if (null == ni) {
-			return false;
-		} else {
-			return true;
-		}
+		return ni != null && ni.isConnectedOrConnecting();
 	}
 }
