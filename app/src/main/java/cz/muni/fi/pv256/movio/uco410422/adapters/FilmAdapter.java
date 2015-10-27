@@ -63,22 +63,7 @@ public class FilmAdapter extends BaseAdapter {
 
 		ViewHolder holder = (ViewHolder) convertView.getTag();
 		holder.cover.setImageResource(mContext.getResources().getIdentifier(mData.get(position).getmCoverPath(), null, mContext.getPackageName()));
-		holder.cover.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(final View v) {
-				DetailFilmFragment detailFilmFrag = new DetailFilmFragment();
-				FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-				if (mContext.getResources().getBoolean(R.bool.dual_pane)) {
-					fragmentTransaction.replace(R.id.fragmentDetailLayout, detailFilmFrag);
-				} else {
-					fragmentTransaction.replace(R.id.fragmentListLayout, detailFilmFrag);
-				}
-				fragmentTransaction.addToBackStack(null);
-				fragmentTransaction.commit();
-
-			}
-		});
 		return convertView;
 	}
 

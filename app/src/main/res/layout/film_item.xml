@@ -8,7 +8,6 @@
 		android:id="@+id/ivFilmCover"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:background="@drawable/martian_cover"
-		android:longClickable="true"
-		android:clickable="true"/>
+		android:background="@drawable/martian_cover"/>
+
 </LinearLayout>

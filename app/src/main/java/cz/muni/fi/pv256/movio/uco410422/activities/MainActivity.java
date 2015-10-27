@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
@@ -14,7 +15,9 @@ import android.widget.TableLayout;
 
 import java.util.ArrayList;
 
+import cz.muni.fi.pv256.movio.uco410422.BuildConfig;
 import cz.muni.fi.pv256.movio.uco410422.R;
+import cz.muni.fi.pv256.movio.uco410422.Versions;
 import cz.muni.fi.pv256.movio.uco410422.fragments.DetailFilmFragment;
 import cz.muni.fi.pv256.movio.uco410422.fragments.ListFilmFragment;
 import cz.muni.fi.pv256.movio.uco410422.models.Film;
@@ -31,6 +34,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mFilms = new ArrayList<Film>();
+
+
+        if (BuildConfig.logging){
+            Log.i("Logging", "PAID VERSION");
+        }
 
         init();
 

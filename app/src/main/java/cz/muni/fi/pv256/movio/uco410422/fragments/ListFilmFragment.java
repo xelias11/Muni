@@ -64,16 +64,22 @@ public class ListFilmFragment extends Fragment {
 			}
 		});
 
-		//mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-		//	@Override
-		//	public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-		//		DetailFilmFragment detailFilmFrag = new DetailFilmFragment();
-		//		FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-		//		fragmentTransaction.replace(R.id.fragmentLayout, detailFilmFrag);
-		//		fragmentTransaction.addToBackStack(null);
-		//		fragmentTransaction.commit();
-		//	}
-		//});
+		mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
+				DetailFilmFragment detailFilmFrag = new DetailFilmFragment();
+				FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+
+				if (getActivity().getResources().getBoolean(R.bool.dual_pane)) {
+					fragmentTransaction.replace(R.id.fragmentDetailLayout, detailFilmFrag);
+				} else {
+					fragmentTransaction.replace(R.id.fragmentListLayout, detailFilmFrag);
+				}
+
+				fragmentTransaction.addToBackStack(null);
+				fragmentTransaction.commit();
+			}
+		});
 
 		ViewStub empty = (ViewStub) v.findViewById(R.id.empty);
 		mGridView.setEmptyView(empty);
