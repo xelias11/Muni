@@ -3,20 +3,33 @@ package cz.muni.fi.pv256.movio.uco410422.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by Vladimir on 16.10.2015.
  */
 public class Film
 		implements Parcelable {
 
+	@SerializedName("release_date")
 	private long mReleaseDate;
+	@SerializedName("poster_path")
 	private String mCoverPath;
+	@SerializedName("title")
 	private String mTitle;
+	@SerializedName("overview")
+	private String mOverview;
+	@SerializedName("backdrop_path")
+	private String mBackground;
 
 	public Film(final long mReleaseDate, final String mCoverPath, final String mTitle) {
 		this.mReleaseDate = mReleaseDate;
 		this.mCoverPath = mCoverPath;
 		this.mTitle = mTitle;
+	}
+
+	public Film(){
+
 	}
 
 	public long getmReleaseDate() {

@@ -15,4 +15,6 @@ public class Connections {
 		NetworkInfo ni = connMan.getActiveNetworkInfo();
 		return ni != null && ni.isConnectedOrConnecting();
 	}
+
+
 }

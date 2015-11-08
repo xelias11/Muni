@@ -21,6 +21,7 @@ import java.util.Random;
 import cz.muni.fi.pv256.movio.uco410422.Network.Connections;
 import cz.muni.fi.pv256.movio.uco410422.R;
 import cz.muni.fi.pv256.movio.uco410422.adapters.FilmAdapter;
+import cz.muni.fi.pv256.movio.uco410422.async.DownloadingTask;
 import cz.muni.fi.pv256.movio.uco410422.models.Film;
 
 /**
@@ -30,8 +31,9 @@ public class ListFilmFragment extends Fragment {
 
 	private View v;
 	private ArrayList<Film> mFilms;
-
+	private DownloadingTask mDownloadingTask;
 	private GridView mGridView;
+	private FilmAdapter filmAdapter;
 
 	@Nullable
 	@Override
@@ -50,7 +52,7 @@ public class ListFilmFragment extends Fragment {
 		mGridView = (GridView) v.findViewById(R.id.gridView);
 		init();
 
-		FilmAdapter filmAdapter = new FilmAdapter(mFilms, getActivity(), getActivity().getSupportFragmentManager());
+		FilmAdapter filmAdapter = new FilmAdapter(mFilms, getActivity());
 
 		mGridView.setAdapter(filmAdapter);
 	}
@@ -87,15 +89,18 @@ public class ListFilmFragment extends Fragment {
 
 
 	private void insertData(){
-		Random random = new Random();
-		Film mFilm = new Film(random.nextLong(), "drawable/jurassic_world_cover", "Jurassic World");
-		Film mFilm1 = new Film(random.nextLong(), "drawable/mad_max_cover", "Mad Max");
-		Film mFilm2 = new Film(random.nextLong(), "drawable/martian_cover", "The Martian");
-		Film mFilm3 = new Film(random.nextLong(), "drawable/avengers_cover", "The Avengers");
-		mFilms.add(mFilm);
-		mFilms.add(mFilm1);
-		mFilms.add(mFilm2);
-		mFilms.add(mFilm3);
+		//Random random = new Random();
+		//Film mFilm = new Film(random.nextLong(), "drawable/jurassic_world_cover", "Jurassic World");
+		//Film mFilm1 = new Film(random.nextLong(), "drawable/mad_max_cover", "Mad Max");
+		//Film mFilm2 = new Film(random.nextLong(), "drawable/martian_cover", "The Martian");
+		//Film mFilm3 = new Film(random.nextLong(), "drawable/avengers_cover", "The Avengers");
+		//mFilms.add(mFilm);
+		//mFilms.add(mFilm1);
+		//mFilms.add(mFilm2);
+		//mFilms.add(mFilm3);
+		mDownloadingTask = new DownloadingTask(this);
+		mDownloadingTask.execute();
+
 
 		if (!Connections.isOnline(getActivity())){
 			ViewStub empty = (ViewStub) v.findViewById(R.id.empty);
@@ -104,5 +109,10 @@ public class ListFilmFragment extends Fragment {
 
 		}
 
+	}
+
+	public void updateAdapter(List<Film> films) {
+		filmAdapter.setFilms(films);
+		filmAdapter.notifyDataSetChanged();
 	}
 }

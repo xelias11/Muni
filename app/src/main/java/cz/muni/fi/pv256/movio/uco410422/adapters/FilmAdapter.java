@@ -19,15 +19,13 @@ import cz.muni.fi.pv256.movio.uco410422.models.Film;
  */
 public class FilmAdapter extends BaseAdapter {
 
-	FragmentManager fragmentManager;
 	private List<Film> mData;
 	private Context mContext;
 
 
-	public FilmAdapter(final List<Film> mData, final Context mContext, FragmentManager fragmentManager) {
+	public FilmAdapter(final List<Film> mData, final Context mContext) {
 		this.mData = mData;
 		this.mContext = mContext;
-		this.fragmentManager = fragmentManager;
 	}
 
 	@Override
@@ -35,7 +33,9 @@ public class FilmAdapter extends BaseAdapter {
 		return mData.size();
 	}
 
-
+	public void setFilms(List<Film> films){
+		mData = films;
+	}
 
 	@Override
 	public Object getItem(final int position) {
