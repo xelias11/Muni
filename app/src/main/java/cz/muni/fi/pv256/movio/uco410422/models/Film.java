@@ -11,18 +11,24 @@ import com.google.gson.annotations.SerializedName;
 public class Film
 		implements Parcelable {
 
+
+	public int getId() {
+		return id;
+	}
+
+	private int id;
 	@SerializedName("release_date")
-	private long mReleaseDate;
-	@SerializedName("poster_path")
+	private String mReleaseDate;
+	@SerializedName("backdrop_path")
 	private String mCoverPath;
 	@SerializedName("title")
 	private String mTitle;
 	@SerializedName("overview")
 	private String mOverview;
-	@SerializedName("backdrop_path")
+	@SerializedName("poster_path")
 	private String mBackground;
 
-	public Film(final long mReleaseDate, final String mCoverPath, final String mTitle) {
+	public Film(final String mReleaseDate, final String mCoverPath, final String mTitle) {
 		this.mReleaseDate = mReleaseDate;
 		this.mCoverPath = mCoverPath;
 		this.mTitle = mTitle;
@@ -32,11 +38,11 @@ public class Film
 
 	}
 
-	public long getmReleaseDate() {
+	public String getmReleaseDate() {
 		return mReleaseDate;
 	}
 
-	public void setmReleaseDate(final long mReleaseDate) {
+	public void setmReleaseDate(final String mReleaseDate) {
 		this.mReleaseDate = mReleaseDate;
 	}
 
@@ -61,13 +67,13 @@ public class Film
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeLong(this.mReleaseDate);
+		//dest.writeLong(this.mReleaseDate);
 		dest.writeString(this.mCoverPath);
 		dest.writeString(this.mTitle);
 	}
 
 	protected Film(Parcel in) {
-		this.mReleaseDate = in.readLong();
+		//this.mReleaseDate = in.readLong();
 		this.mCoverPath = in.readString();
 		this.mTitle = in.readString();
 	}

@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.support.v4.app.FragmentManager;
+
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 import cz.muni.fi.pv256.movio.uco410422.R;
@@ -44,7 +47,7 @@ public class FilmAdapter extends BaseAdapter {
 
 	@Override
 	public long getItemId(final int position) {
-		return mData.get(position).getmReleaseDate();
+		return mData.get(position).getId();
 	}
 
 	private static class ViewHolder {
@@ -62,7 +65,8 @@ public class FilmAdapter extends BaseAdapter {
 		}
 
 		ViewHolder holder = (ViewHolder) convertView.getTag();
-		holder.cover.setImageResource(mContext.getResources().getIdentifier(mData.get(position).getmCoverPath(), null, mContext.getPackageName()));
+		Glide.with(mContext).load(mData.get(position).getmCoverPath()).into(holder.cover);
+		//holder.cover.setImageResource(mContext.getResources().getIdentifier(mData.get(position).getmCoverPath(), null, mContext.getPackageName()));
 
 		return convertView;
 	}

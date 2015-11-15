@@ -1,10 +1,12 @@
 package cz.muni.fi.pv256.movio.uco410422.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,15 +16,18 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.okhttp.Response;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-
+import cz.muni.fi.pv256.movio.uco410422.Constans;
 import cz.muni.fi.pv256.movio.uco410422.Network.Connections;
+import cz.muni.fi.pv256.movio.uco410422.Network.Responses;
 import cz.muni.fi.pv256.movio.uco410422.R;
 import cz.muni.fi.pv256.movio.uco410422.adapters.FilmAdapter;
-import cz.muni.fi.pv256.movio.uco410422.async.DownloadingTask;
 import cz.muni.fi.pv256.movio.uco410422.models.Film;
+import cz.muni.fi.pv256.movio.uco410422.services.DownloadService;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by Vladimir on 21.10.2015.
@@ -31,7 +36,6 @@ public class ListFilmFragment extends Fragment {
 
 	private View v;
 	private ArrayList<Film> mFilms;
-	private DownloadingTask mDownloadingTask;
 	private GridView mGridView;
 	private FilmAdapter filmAdapter;
 
@@ -40,7 +44,7 @@ public class ListFilmFragment extends Fragment {
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 		v = inflater.inflate(R.layout.fragment_film_list,container,false);
 		mFilms = new ArrayList<Film>();
-
+		EventBus.getDefault().register(this);
 		return v;
 	}
 
@@ -98,8 +102,14 @@ public class ListFilmFragment extends Fragment {
 		//mFilms.add(mFilm1);
 		//mFilms.add(mFilm2);
 		//mFilms.add(mFilm3);
-		mDownloadingTask = new DownloadingTask(this);
-		mDownloadingTask.execute();
+
+		Intent downloadIntent = new Intent(getActivity(), DownloadService.class);
+		downloadIntent.putExtra("url", Constans.BASE_URL + Constans.POPULAR_URL + Constans.API_KEY);
+		getActivity().startService(downloadIntent);
+		//Request request = new Request.Builder()
+		//		.url(Constans.BASE_URL + Constans.POPULAR_URL + Constans.API_KEY)
+		//		.addHeader("Accept", "application/json")
+		//		.build();
 
 
 		if (!Connections.isOnline(getActivity())){
@@ -109,6 +119,18 @@ public class ListFilmFragment extends Fragment {
 
 		}
 
+	}
+
+	public void onEvent(final Responses.LoadFilmsResponse response){
+
+		Log.d("Vypis", response.films.get(0).getmTitle());
+		updateAdapter(response.films);
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		EventBus.getDefault().unregister(this);
 	}
 
 	public void updateAdapter(List<Film> films) {
