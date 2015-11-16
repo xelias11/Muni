@@ -1,6 +1,7 @@
 package cz.muni.fi.pv256.movio.uco410422.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -14,19 +15,24 @@ import android.widget.GridView;
 import android.widget.TableLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cz.muni.fi.pv256.movio.uco410422.BuildConfig;
+import cz.muni.fi.pv256.movio.uco410422.Network.Responses;
 import cz.muni.fi.pv256.movio.uco410422.R;
 import cz.muni.fi.pv256.movio.uco410422.Versions;
 import cz.muni.fi.pv256.movio.uco410422.fragments.DetailFilmFragment;
 import cz.muni.fi.pv256.movio.uco410422.fragments.ListFilmFragment;
 import cz.muni.fi.pv256.movio.uco410422.models.Film;
+import cz.muni.fi.pv256.movio.uco410422.services.DownloadService;
+import de.greenrobot.event.EventBus;
 
 public class MainActivity extends AppCompatActivity {
 
     private ArrayList<Film> mFilms;
     private GridView mGridView;
     private boolean tablet = false;
+    private DetailFilmFragment detailFilmFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,28 +45,33 @@ public class MainActivity extends AppCompatActivity {
         if (BuildConfig.logging){
             Log.i("Logging", "PAID VERSION");
         }
+        EventBus.getDefault().register(this);
+        if (savedInstanceState == null){
+            downloadData();
+        }
 
-        init();
     }
 
 
-    private void init(){
+    private void init(ArrayList<Film> films){
 
         FragmentTransaction fragmentTransaction = null;
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
         Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList("Films", mFilms);
+        bundle.putParcelableArrayList("Films", films);
+        bundle.putInt("Position", -1);
 
 
         if(getResources().getBoolean(R.bool.dual_pane)){
             ListFilmFragment listFilmFragment = new ListFilmFragment();
+            listFilmFragment.setArguments(bundle);
             fragmentTransaction.replace(R.id.fragmentListLayout, listFilmFragment);
             fragmentTransaction.addToBackStack(null);
 
             DetailFilmFragment detailFilmFragment = new DetailFilmFragment();
-            //detailFilmFragment.setArguments(bundle);
-            fragmentTransaction.add(R.id.fragmentDetailLayout, detailFilmFragment);
+            detailFilmFragment.setArguments(bundle);
+            fragmentTransaction.add(R.id.fragmentDetailLayout, detailFilmFragment, "detail");
             fragmentTransaction.commit();
         }
         else{
@@ -73,6 +84,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    private void downloadData(){
+        Intent downloadIntent = new Intent(this, DownloadService.class);
+        startService(downloadIntent);
     }
 
     @Override
@@ -96,6 +112,24 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    public void onEvent(final Responses.LoadFilmsResponse response){
+        init((ArrayList<Film>)response.films);
+    }
+
+
 
 
 }

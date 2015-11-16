@@ -13,5 +13,5 @@ import retrofit.http.GET;
  */
 public interface Api {
 	@GET(Constans.POPULAR_URL + Constans.API_KEY)
-	void getFilms(Callback<List<Film>> response);
+	void getFilms(Callback<Responses.LoadFilmsResponse> response);
 }

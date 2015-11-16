@@ -8,9 +8,6 @@ import android.util.Log;
 
 import cz.muni.fi.pv256.movio.uco410422.Network.Api;
 
-import de.greenrobot.event.EventBus;
-import retrofit.RestAdapter;
-import retrofit.client.OkClient;
 
 
 /**
@@ -34,24 +31,6 @@ public class Muni extends Application {
 		if (BuildConfig.DEBUG) {
 			initStrictMode();
 		}
-
-
-
-		//api = new RestAdapter.Builder()
-		//		.setEndpoint(Constans.BASE_URL)
-		//		.setClient(new OkClient())
-		//		.setLogLevel(RestAdapter.LogLevel.FULL)
-		//		.setLog(new RestAdapter.Log() {
-		//			@Override
-		//			public void log(String msg) {
-		//				Log.d("RETROFIT", msg);
-		//			}
-		//		})
-		//		.build()
-		//		.create(Api.class);
-
-
-
 
 
 	}

@@ -19,13 +19,22 @@ public class Film
 	private int id;
 	@SerializedName("release_date")
 	private String mReleaseDate;
-	@SerializedName("backdrop_path")
+	@SerializedName("poster_path")
 	private String mCoverPath;
 	@SerializedName("title")
 	private String mTitle;
 	@SerializedName("overview")
 	private String mOverview;
-	@SerializedName("poster_path")
+
+	public String getmBackground() {
+		return mBackground;
+	}
+
+	public String getmOverview() {
+		return mOverview;
+	}
+
+	@SerializedName("backdrop_path")
 	private String mBackground;
 
 	public Film(final String mReleaseDate, final String mCoverPath, final String mTitle) {
@@ -39,7 +48,7 @@ public class Film
 	}
 
 	public String getmReleaseDate() {
-		return mReleaseDate;
+		return mReleaseDate.substring(0,4);
 	}
 
 	public void setmReleaseDate(final String mReleaseDate) {
@@ -62,20 +71,27 @@ public class Film
 		this.mTitle = mTitle;
 	}
 
+
 	@Override
 	public int describeContents() { return 0; }
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		//dest.writeLong(this.mReleaseDate);
+		dest.writeInt(this.id);
+		dest.writeString(this.mReleaseDate);
 		dest.writeString(this.mCoverPath);
 		dest.writeString(this.mTitle);
+		dest.writeString(this.mOverview);
+		dest.writeString(this.mBackground);
 	}
 
 	protected Film(Parcel in) {
-		//this.mReleaseDate = in.readLong();
+		this.id = in.readInt();
+		this.mReleaseDate = in.readString();
 		this.mCoverPath = in.readString();
 		this.mTitle = in.readString();
+		this.mOverview = in.readString();
+		this.mBackground = in.readString();
 	}
 
 	public static final Parcelable.Creator<Film> CREATOR = new Parcelable.Creator<Film>() {

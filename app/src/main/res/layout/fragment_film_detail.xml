@@ -10,22 +10,23 @@
 
 		<ImageView
 			android:id="@+id/ivFilmBackground"
-			android:layout_width="match_parent"
+			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:background="@drawable/avengers_background"/>
+			android:adjustViewBounds="true"
+			android:scaleType="fitCenter"/>
 
 		<ImageView
 			android:id="@id/ivFilmCover"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:background="@drawable/avengers_cover"
+			android:layout_width="100dp"
+			android:layout_height="150dp"
+
 			android:layout_below="@id/ivFilmBackground"
 			android:layout_marginLeft="25dp"
 			android:layout_marginTop="-25dp"
 			android:elevation="4dp"/>
 
 		<android.support.design.widget.FloatingActionButton
-			android:id="@+id/fbAddProduct"
+			android:id="@+id/fbAddToFav"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_marginBottom="@dimen/fab_margin"
@@ -46,7 +47,7 @@
 
 		<TextView
 			android:id="@+id/tvFilmName"
-			android:layout_width="wrap_content"
+			android:layout_width="150dp"
 			android:layout_height="wrap_content"
 			android:text="The Avengers \nAge of ultron"
 			android:layout_below="@id/ivFilmBackground"
@@ -99,6 +100,7 @@
 				android:orientation="horizontal">
 
 				<ImageView
+					android:id="@+id/ivCast"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:background="@drawable/actor1"

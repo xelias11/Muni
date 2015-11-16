@@ -21,6 +21,7 @@ public class Responses {
 		@SerializedName("results")
 		public List<Film> films;
 
+
 		public LoadFilmsResponse(final List<Film> films) {
 			this.films = films;
 		}

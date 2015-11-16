@@ -38,8 +38,6 @@ public class DownloadService
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		String url = intent.getStringExtra("url");
-		Log.d("url", url);
 
 		Muni muni = (Muni) getApplicationContext();
 		RestAdapter adapter = new RestAdapter.Builder()
@@ -61,16 +59,15 @@ public class DownloadService
 				.build();
 
 		Api api = adapter.create(Api.class);
-		api.getFilms(new Callback<List<Film>>() {
+		api.getFilms(new Callback<Responses.LoadFilmsResponse>() {
 			@Override
-			public void success(final List<Film> films, final Response response) {
-				Log.d("IDE TO", films.get(0).getmTitle());
-				EventBus.getDefault().post(new Responses.LoadFilmsResponse(films));
+			public void success(final Responses.LoadFilmsResponse loadFilmsResponse, final Response response) {
+				EventBus.getDefault().post(new Responses.LoadFilmsResponse(loadFilmsResponse.films));
 			}
 
 			@Override
 			public void failure(final RetrofitError error) {
-				Log.d("NEJDE TO", "bla");
+				Log.d("Chyba pri stahovani dat", error.toString());
 			}
 		});
 

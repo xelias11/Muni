@@ -65,8 +65,8 @@ public class FilmAdapter extends BaseAdapter {
 		}
 
 		ViewHolder holder = (ViewHolder) convertView.getTag();
-		Glide.with(mContext).load(mData.get(position).getmCoverPath()).into(holder.cover);
-		//holder.cover.setImageResource(mContext.getResources().getIdentifier(mData.get(position).getmCoverPath(), null, mContext.getPackageName()));
+		Glide.with(mContext).load("https://image.tmdb.org/t/p/w396" + mData.get(position).getmCoverPath()).into(holder.cover);
+
 
 		return convertView;
 	}
