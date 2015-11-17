@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.support.v4.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -65,10 +66,11 @@ public class FilmAdapter extends BaseAdapter {
 		}
 
 		ViewHolder holder = (ViewHolder) convertView.getTag();
-		Glide.with(mContext).load("https://image.tmdb.org/t/p/w396" + mData.get(position).getmCoverPath()).into(holder.cover);
+		Picasso.with(mContext).load("https://image.tmdb.org/t/p/w396" + mData.get(position).getmCoverPath()).into(holder.cover);
 
 
 		return convertView;
 	}
+
 
 }

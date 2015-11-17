@@ -37,6 +37,15 @@ public class Film
 	@SerializedName("backdrop_path")
 	private String mBackground;
 
+	public Film(final int id, final String title, final String cover, final String background, final String overview, final String releaseDate){
+		this.id = id;
+		mTitle = title;
+		mCoverPath = cover;
+		mBackground = background;
+		mOverview = overview;
+		mReleaseDate = releaseDate;
+	}
+
 	public Film(final String mReleaseDate, final String mCoverPath, final String mTitle) {
 		this.mReleaseDate = mReleaseDate;
 		this.mCoverPath = mCoverPath;

@@ -11,12 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import cz.muni.fi.pv256.movio.uco410422.R;
+import cz.muni.fi.pv256.movio.uco410422.databases.DatabaseFilms;
 import cz.muni.fi.pv256.movio.uco410422.models.Film;
 
 /**
@@ -35,6 +38,8 @@ public class DetailFilmFragment extends Fragment {
 	FloatingActionButton fbFav;
 	private ArrayList<Film> mFilms;
 	private int position;
+	private static boolean isFavorite = false;
+	private DatabaseFilms dbFilms;
 
 	@Nullable
 	@Override
@@ -44,6 +49,8 @@ public class DetailFilmFragment extends Fragment {
 		mFilms = getArguments().getParcelableArrayList("Films");
 		position = getArguments().getInt("Position");
 		setRetainInstance(true);
+		dbFilms = new DatabaseFilms(getActivity());
+
 		return v;
 	}
 
@@ -61,14 +68,15 @@ public class DetailFilmFragment extends Fragment {
 
 		ImageView cast = (ImageView) view.findViewById(R.id.ivCast);
 		insertData();
+		setFbButton();
 
 	}
 
 	private void insertData(){
 		Context mContext = getActivity();
 		if (position != -1){
-			Glide.with(mContext).load("https://image.tmdb.org/t/p/original" + mFilms.get(position).getmBackground()).into(background);
-			Glide.with(mContext).load("https://image.tmdb.org/t/p/w396" + mFilms.get(position).getmCoverPath()).into(cover);
+			Picasso.with(mContext).load("https://image.tmdb.org/t/p/original" + mFilms.get(position).getmBackground()).into(background);
+			Picasso.with(mContext).load("https://image.tmdb.org/t/p/w396" + mFilms.get(position).getmCoverPath()).into(cover);
 			name.setText(mFilms.get(position).getmTitle());
 			overview.setText(mFilms.get(position).getmOverview());
 			release.setText(mFilms.get(position).getmReleaseDate());
@@ -76,10 +84,38 @@ public class DetailFilmFragment extends Fragment {
 		}
 	}
 
+	private void setFbButton(){
+		if (dbFilms.isFavorite(mFilms.get(position).getId())){
+			fbFav.setImageResource(R.drawable.ic_star_full);
+			isFavorite = true;
+		}
+		else {
+			fbFav.setImageResource(R.drawable.ic_star_empty);
+			isFavorite = false;
+		}
+		fbFav.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				if (isFavorite){
+					fbFav.setImageResource(R.drawable.ic_star_empty);
+					Toast.makeText(getActivity(), "Odobrané z obľúbených", Toast.LENGTH_SHORT).show();
+					dbFilms.deleteFilm(mFilms.get(position).getId());
+					isFavorite = false;
+				}
+				else {
+					fbFav.setImageResource(R.drawable.ic_star_full);
+					Toast.makeText(getActivity(), "Pridané do obľúbených", Toast.LENGTH_SHORT).show();
+					dbFilms.saveFilm(mFilms.get(position));
+					isFavorite = true;
+				}
+			}
+		});
+	}
+
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 
-		outState.putCharSequence("text", "hovno");
+		outState.putCharSequence("Fragment", "DetailFIlmFragment");
 	}
 }

@@ -33,10 +33,11 @@
 			android:layout_marginRight="@dimen/fab_margin"
 			android:layout_alignParentRight="true"
 			android:layout_alignParentEnd="true"
-			android:src="@drawable/ic_fb_plus"
+			android:src="@drawable/ic_star_empty"
 			android:layout_below="@id/ivFilmBackground"
 			android:layout_marginTop="-30dp"
-			android:elevation="6dp"/>
+			android:elevation="6dp"
+			android:onClick="AddToFavOnClick"/>
 
 		<View
 			android:layout_width="wrap_content"

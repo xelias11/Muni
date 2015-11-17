@@ -9,10 +9,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.GridView;
+import android.widget.Switch;
 import android.widget.TableLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +25,7 @@ import cz.muni.fi.pv256.movio.uco410422.BuildConfig;
 import cz.muni.fi.pv256.movio.uco410422.Network.Responses;
 import cz.muni.fi.pv256.movio.uco410422.R;
 import cz.muni.fi.pv256.movio.uco410422.Versions;
+import cz.muni.fi.pv256.movio.uco410422.databases.DatabaseFilms;
 import cz.muni.fi.pv256.movio.uco410422.fragments.DetailFilmFragment;
 import cz.muni.fi.pv256.movio.uco410422.fragments.ListFilmFragment;
 import cz.muni.fi.pv256.movio.uco410422.models.Film;
@@ -33,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private GridView mGridView;
     private boolean tablet = false;
     private DetailFilmFragment detailFilmFragment;
+    private DatabaseFilms dbFilms;
+    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,15 +47,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mFilms = new ArrayList<Film>();
-
+        dbFilms = new DatabaseFilms(this);
 
         if (BuildConfig.logging){
             Log.i("Logging", "PAID VERSION");
         }
-        EventBus.getDefault().register(this);
-        if (savedInstanceState == null){
-            downloadData();
-        }
+        bundle = savedInstanceState;
+
 
     }
 
@@ -95,8 +100,13 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+
         return true;
     }
+
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -106,7 +116,17 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.menu_switch) {
+            if (item.getTitle().equals("Favorites")){
+                mFilms = (ArrayList<Film>) dbFilms.getAllFilms();
+                init(mFilms);
+                item.setTitle("Discover");
+            }
+            else {
+                item.setTitle("Favorites");
+                downloadData();
+            }
+
             return true;
         }
 
@@ -114,9 +134,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+        if (bundle == null){
+            downloadData();
+        }
     }
 
     @Override
@@ -128,8 +151,5 @@ public class MainActivity extends AppCompatActivity {
     public void onEvent(final Responses.LoadFilmsResponse response){
         init((ArrayList<Film>)response.films);
     }
-
-
-
 
 }
