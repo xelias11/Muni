@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void downloadData(){
         Intent downloadIntent = new Intent(this, DownloadService.class);
+        downloadIntent.putExtra("film_id", -1);
         startService(downloadIntent);
     }
 

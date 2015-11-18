@@ -31,6 +31,8 @@ import retrofit.client.Response;
 public class DownloadService
 		extends IntentService {
 	//private Api api;
+	public static final int DOWNLOAD_FILMS = -1;
+
 
 	public DownloadService() {
 		super("DownloadService");
@@ -39,6 +41,7 @@ public class DownloadService
 	@Override
 	protected void onHandleIntent(Intent intent) {
 
+		int filmId = intent.getIntExtra("film_id", -1);
 		Muni muni = (Muni) getApplicationContext();
 		RestAdapter adapter = new RestAdapter.Builder()
 				.setEndpoint(Constans.BASE_URL)
@@ -59,18 +62,33 @@ public class DownloadService
 				.build();
 
 		Api api = adapter.create(Api.class);
-		api.getFilms(new Callback<Responses.LoadFilmsResponse>() {
-			@Override
-			public void success(final Responses.LoadFilmsResponse loadFilmsResponse, final Response response) {
-				EventBus.getDefault().post(new Responses.LoadFilmsResponse(loadFilmsResponse.films));
-			}
 
-			@Override
-			public void failure(final RetrofitError error) {
-				Log.d("Chyba pri stahovani dat", error.toString());
-			}
-		});
+		if (filmId == DOWNLOAD_FILMS) {
+			api.getFilms(new Callback<Responses.LoadFilmsResponse>() {
+				@Override
+				public void success(final Responses.LoadFilmsResponse loadFilmsResponse, final Response response) {
+					EventBus.getDefault().post(new Responses.LoadFilmsResponse(loadFilmsResponse.films));
+				}
 
+				@Override
+				public void failure(final RetrofitError error) {
+					Log.d("Chyba pri stahovani dat", error.toString());
+				}
+			});
+		}
+		else {
+			api.getCast(filmId, new Callback<Responses.LoadCastResponse>() {
+				@Override
+				public void success(final Responses.LoadCastResponse loadCastResponse, final Response response) {
+					EventBus.getDefault().post(new Responses.LoadCastResponse(loadCastResponse.cast));
+				}
+
+				@Override
+				public void failure(final RetrofitError error) {
+					Log.d("Chyba pri stahovani dat", error.toString());
+				}
+			});
+		}
 	}
 
 

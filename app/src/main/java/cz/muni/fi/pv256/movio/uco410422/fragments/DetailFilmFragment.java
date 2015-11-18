@@ -1,6 +1,7 @@
 package cz.muni.fi.pv256.movio.uco410422.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -18,9 +19,12 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import cz.muni.fi.pv256.movio.uco410422.Network.Responses;
 import cz.muni.fi.pv256.movio.uco410422.R;
 import cz.muni.fi.pv256.movio.uco410422.databases.DatabaseFilms;
 import cz.muni.fi.pv256.movio.uco410422.models.Film;
+import cz.muni.fi.pv256.movio.uco410422.services.DownloadService;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by Vladimir on 21.10.2015.
@@ -44,7 +48,7 @@ public class DetailFilmFragment extends Fragment {
 	@Nullable
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-		v = inflater.inflate(R.layout.fragment_film_detail,container,false);
+		v = inflater.inflate(R.layout.fragment_film_detail, container, false);
 		mFilms = new ArrayList<>();
 		mFilms = getArguments().getParcelableArrayList("Films");
 		position = getArguments().getInt("Position");
@@ -112,10 +116,31 @@ public class DetailFilmFragment extends Fragment {
 		});
 	}
 
+	public void onEvent(final Responses.LoadCastResponse response){
+		Log.d("Tag", response.cast.get(0).getmName());
+	}
+
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 
 		outState.putCharSequence("Fragment", "DetailFIlmFragment");
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+//		EventBus.getDefault().register(getActivity());
+
+		//TODO: stahovanie hercov k danemu filmu, nefunguje s aktualnym klucom
+		//Intent downloadIntent = new Intent(getActivity(), DownloadService.class);
+		//downloadIntent.putExtra("film_id", mFilms.get(position).getId());
+		//getActivity().startService(downloadIntent);
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+	//	EventBus.getDefault().unregister(getActivity());
 	}
 }

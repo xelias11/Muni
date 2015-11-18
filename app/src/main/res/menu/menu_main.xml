@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
 
     <item android:id="@+id/menu_switch"
-        android:title="DB"
-        android:showAsAction="always"/>
+        android:title="Favorites"
+        android:showAsAction="never"/>
 
 
 </menu>
