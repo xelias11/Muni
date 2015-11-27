@@ -1,7 +1,6 @@
 package cz.muni.fi.pv256.movio.uco410422.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -14,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -23,8 +21,6 @@ import cz.muni.fi.pv256.movio.uco410422.Network.Responses;
 import cz.muni.fi.pv256.movio.uco410422.R;
 import cz.muni.fi.pv256.movio.uco410422.databases.DatabaseFilms;
 import cz.muni.fi.pv256.movio.uco410422.models.Film;
-import cz.muni.fi.pv256.movio.uco410422.services.DownloadService;
-import de.greenrobot.event.EventBus;
 
 /**
  * Created by Vladimir on 21.10.2015.

@@ -94,6 +94,21 @@ public class DatabaseFilms extends SQLiteOpenHelper {
 		return films;
 	}
 
+	public void updateFilm(Film film){
+		SQLiteDatabase db = getWritableDatabase();
+		ContentValues values = new ContentValues();
+
+		values.put(FILM_ID, film.getId());
+		values.put(FILM_NAME, film.getmTitle());
+		values.put(FILM_COVER, film.getmCoverPath());
+		values.put(FILM_BACKGROUND, film.getmBackground());
+		values.put(FILM_OVERVIEW, film.getmOverview());
+		values.put(FILM_RELEASE_DATE, film.getmReleaseDate());
+
+		db.update(TABLE_FILM, values, FILM_ID + "=" + film.getId(), null);
+		db.close();
+	}
+
 	public boolean isFavorite(int id){
 		SQLiteDatabase db = getReadableDatabase();
 		Cursor cursor = db.rawQuery("SELECT * FROM film WHERE id=" + id, null);

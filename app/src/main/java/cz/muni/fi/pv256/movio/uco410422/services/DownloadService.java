@@ -4,20 +4,15 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
-import java.io.IOException;
-import java.util.List;
-
 import cz.muni.fi.pv256.movio.uco410422.Constans;
 import cz.muni.fi.pv256.movio.uco410422.Muni;
 import cz.muni.fi.pv256.movio.uco410422.Network.Api;
 import cz.muni.fi.pv256.movio.uco410422.Network.Responses;
-import cz.muni.fi.pv256.movio.uco410422.models.Film;
 import de.greenrobot.event.EventBus;
 import retrofit.Callback;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
-
 import retrofit.client.OkClient;
 import retrofit.client.Response;
 

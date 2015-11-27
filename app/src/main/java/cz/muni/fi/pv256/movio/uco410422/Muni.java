@@ -3,8 +3,6 @@ package cz.muni.fi.pv256.movio.uco410422;
 import android.app.Application;
 import android.os.Build;
 import android.os.StrictMode;
-import android.util.Log;
-
 
 import cz.muni.fi.pv256.movio.uco410422.Network.Api;
 

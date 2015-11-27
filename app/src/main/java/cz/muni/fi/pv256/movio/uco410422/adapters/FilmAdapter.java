@@ -1,21 +1,17 @@
 package cz.muni.fi.pv256.movio.uco410422.adapters;
 
 import android.content.Context;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.support.v4.app.FragmentManager;
 
-import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import cz.muni.fi.pv256.movio.uco410422.R;
-import cz.muni.fi.pv256.movio.uco410422.fragments.DetailFilmFragment;
 import cz.muni.fi.pv256.movio.uco410422.models.Film;
 
 /**

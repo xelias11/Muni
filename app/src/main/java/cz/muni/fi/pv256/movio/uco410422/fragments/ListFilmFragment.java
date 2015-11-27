@@ -1,33 +1,25 @@
 package cz.muni.fi.pv256.movio.uco410422.fragments;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.squareup.okhttp.Response;
 
 import java.util.ArrayList;
 import java.util.List;
-import cz.muni.fi.pv256.movio.uco410422.Constans;
+
 import cz.muni.fi.pv256.movio.uco410422.Network.Connections;
-import cz.muni.fi.pv256.movio.uco410422.Network.Responses;
 import cz.muni.fi.pv256.movio.uco410422.R;
 import cz.muni.fi.pv256.movio.uco410422.adapters.FilmAdapter;
+import cz.muni.fi.pv256.movio.uco410422.databases.DatabaseFilms;
 import cz.muni.fi.pv256.movio.uco410422.models.Film;
-import cz.muni.fi.pv256.movio.uco410422.services.DownloadService;
-import de.greenrobot.event.EventBus;
 
 /**
  * Created by Vladimir on 21.10.2015.
@@ -38,6 +30,8 @@ public class ListFilmFragment extends Fragment {
 	private ArrayList<Film> mFilms;
 	private GridView mGridView;
 	private FilmAdapter filmAdapter;
+	private DatabaseFilms dbFilms;
+	private static boolean shown = false;
 
 	@Nullable
 	@Override
@@ -46,7 +40,7 @@ public class ListFilmFragment extends Fragment {
 		mFilms = new ArrayList<Film>();
 		//Bundle bundle = getArguments();
 		mFilms = getArguments().getParcelableArrayList("Films");
-
+		dbFilms = new DatabaseFilms(getActivity());
 		return v;
 	}
 
@@ -59,8 +53,15 @@ public class ListFilmFragment extends Fragment {
 		filmAdapter = new FilmAdapter(mFilms, getActivity());
 		mGridView.setAdapter(filmAdapter);
 
+		if (!Connections.isOnline(getActivity())){
+			ViewStub empty = (ViewStub) v.findViewById(R.id.empty);
+			empty.setLayoutResource(R.layout.no_connection_view);
+			empty.inflate();
+
+		}
+
 		init();
-		insertData();
+		updateData();
 	}
 
 	private void init(){
@@ -97,15 +98,18 @@ public class ListFilmFragment extends Fragment {
 	}
 
 
-	private void insertData(){
-
-		if (!Connections.isOnline(getActivity())){
-			ViewStub empty = (ViewStub) v.findViewById(R.id.empty);
-			empty.setLayoutResource(R.layout.no_connection_view);
-			empty.inflate();
-
+	private void updateData(){
+		List<Film> savedFilms = new ArrayList<>();
+		savedFilms = dbFilms.getAllFilms();
+		int dbFilmsSize = savedFilms.size();
+		int downloadedFilmsSize = mFilms.size();
+		for (int i = 0; i < dbFilmsSize; i++){
+			for (int j = 0; j < downloadedFilmsSize; j++){
+				if (savedFilms.get(i).getId() == mFilms.get(j).getId()){
+					dbFilms.updateFilm(mFilms.get(j));
+				}
+			}
 		}
-
 	}
 
 

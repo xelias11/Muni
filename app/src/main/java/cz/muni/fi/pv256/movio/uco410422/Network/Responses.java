@@ -6,9 +6,6 @@ import java.util.List;
 
 import cz.muni.fi.pv256.movio.uco410422.models.Cast;
 import cz.muni.fi.pv256.movio.uco410422.models.Film;
-import retrofit.client.Header;
-import retrofit.client.Response;
-import retrofit.mime.TypedInput;
 
 /**
  * Created by Vladimir on 13.11.2015.

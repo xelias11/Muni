@@ -1,10 +1,6 @@
 package cz.muni.fi.pv256.movio.uco410422.Network;
 
-import java.util.List;
-
 import cz.muni.fi.pv256.movio.uco410422.Constans;
-
-import cz.muni.fi.pv256.movio.uco410422.models.Film;
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Path;

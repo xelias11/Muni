@@ -1,30 +1,20 @@
 package cz.muni.fi.pv256.movio.uco410422.activities;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
+import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.CompoundButton;
-import android.widget.FrameLayout;
 import android.widget.GridView;
-import android.widget.Switch;
-import android.widget.TableLayout;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import cz.muni.fi.pv256.movio.uco410422.BuildConfig;
 import cz.muni.fi.pv256.movio.uco410422.Network.Responses;
 import cz.muni.fi.pv256.movio.uco410422.R;
-import cz.muni.fi.pv256.movio.uco410422.Versions;
+import cz.muni.fi.pv256.movio.uco410422.adapters.UpdaterSyncAdapter;
 import cz.muni.fi.pv256.movio.uco410422.databases.DatabaseFilms;
 import cz.muni.fi.pv256.movio.uco410422.fragments.DetailFilmFragment;
 import cz.muni.fi.pv256.movio.uco410422.fragments.ListFilmFragment;
@@ -53,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
             Log.i("Logging", "PAID VERSION");
         }
         bundle = savedInstanceState;
-
+        UpdaterSyncAdapter.initializeSyncAdapter(this);
 
     }
 
@@ -129,6 +119,10 @@ public class MainActivity extends AppCompatActivity {
             }
 
             return true;
+        }
+
+        if (id == R.id.menu_refresh) {
+            downloadData();
         }
 
         return super.onOptionsItemSelected(item);
