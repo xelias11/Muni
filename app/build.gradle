@@ -65,7 +65,6 @@ android {
 
         free {
             versionCode 10 //můžeme měnit na libovolné jiné číslo, než má původní verze
-            versionName "10"
             applicationId = "cz.muni.fi.pv256.movio.uco410422.free"
             buildConfigField 'boolean', 'logging', 'false'
         }
