@@ -66,7 +66,7 @@ public class DetailFilmFragment extends Fragment {
 		director = (TextView) view.findViewById(R.id.tvFilmDirector);
 		fbFav = (FloatingActionButton) view.findViewById(R.id.fbAddToFav);
 
-		ImageView cast = (ImageView) view.findViewById(R.id.ivCast);
+
 		insertData();
 		setFbButton();
 

@@ -118,7 +118,7 @@ public class UpdaterSyncAdapter extends AbstractThreadedSyncAdapter {
 
 	@Override
 	public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
-		//TODO update
+
 		Intent downloadIntent = new Intent(getContext(), DownloadService.class);
 		downloadIntent.putExtra("film_id", -1);
 		getContext().startService(downloadIntent);
