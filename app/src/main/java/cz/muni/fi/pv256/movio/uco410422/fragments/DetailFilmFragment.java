@@ -85,31 +85,37 @@ public class DetailFilmFragment extends Fragment {
 	}
 
 	private void setFbButton(){
-		if (dbFilms.isFavorite(mFilms.get(position).getId())){
-			fbFav.setImageResource(R.drawable.ic_star_full);
-			isFavorite = true;
+		if (position == -1){
+
 		}
 		else {
-			fbFav.setImageResource(R.drawable.ic_star_empty);
-			isFavorite = false;
-		}
-		fbFav.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(final View v) {
-				if (isFavorite){
-					fbFav.setImageResource(R.drawable.ic_star_empty);
-					Toast.makeText(getActivity(), "Odobrané z obľúbených", Toast.LENGTH_SHORT).show();
-					dbFilms.deleteFilm(mFilms.get(position).getId());
-					isFavorite = false;
-				}
-				else {
-					fbFav.setImageResource(R.drawable.ic_star_full);
-					Toast.makeText(getActivity(), "Pridané do obľúbených", Toast.LENGTH_SHORT).show();
-					dbFilms.saveFilm(mFilms.get(position));
-					isFavorite = true;
-				}
+			if (dbFilms.isFavorite(mFilms.get(position).getId())){
+				fbFav.setImageResource(R.drawable.ic_star_full);
+				isFavorite = true;
 			}
-		});
+			else {
+				fbFav.setImageResource(R.drawable.ic_star_empty);
+				isFavorite = false;
+			}
+			fbFav.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(final View v) {
+					if (isFavorite){
+						fbFav.setImageResource(R.drawable.ic_star_empty);
+						Toast.makeText(getActivity(), "Odobrané z obľúbených", Toast.LENGTH_SHORT).show();
+						dbFilms.deleteFilm(mFilms.get(position).getId());
+						isFavorite = false;
+					}
+					else {
+						fbFav.setImageResource(R.drawable.ic_star_full);
+						Toast.makeText(getActivity(), "Pridané do obľúbených", Toast.LENGTH_SHORT).show();
+						dbFilms.saveFilm(mFilms.get(position));
+						isFavorite = true;
+					}
+				}
+			});
+		}
+
 	}
 
 	public void onEvent(final Responses.LoadCastResponse response){

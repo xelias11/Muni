@@ -18,8 +18,12 @@ public class Muni extends Application {
 	public Api getApi() {
 		return api;
 	}
-
+	private static Muni sInstance = null;
 	private Api api;
+
+
+
+	public int filmSelected = -1;
 
 
 	@Override
@@ -31,6 +35,14 @@ public class Muni extends Application {
 		}
 
 
+	}
+
+	public static Muni getInstance(){
+
+		if (sInstance == null){
+			sInstance = new Muni();
+		}
+		return sInstance;
 	}
 
 	private void initStrictMode() {
@@ -49,6 +61,14 @@ public class Muni extends Application {
 			vmpb.detectLeakedClosableObjects();
 		}
 		StrictMode.setVmPolicy(vmpb.build());
+	}
+
+	public int getFilmSelected() {
+		return filmSelected;
+	}
+
+	public void setFilmSelected(int filmSelected) {
+		this.filmSelected = filmSelected;
 	}
 
 }

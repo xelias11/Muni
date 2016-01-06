@@ -2,6 +2,7 @@ package cz.muni.fi.pv256.movio.uco410422.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.renderscript.Sampler;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -11,12 +12,16 @@ import android.widget.GridView;
 
 import java.util.ArrayList;
 
+import javax.xml.validation.Validator;
+
 import cz.muni.fi.pv256.movio.uco410422.BuildConfig;
+import cz.muni.fi.pv256.movio.uco410422.Muni;
 import cz.muni.fi.pv256.movio.uco410422.Network.Responses;
 import cz.muni.fi.pv256.movio.uco410422.R;
 import cz.muni.fi.pv256.movio.uco410422.adapters.UpdaterSyncAdapter;
 import cz.muni.fi.pv256.movio.uco410422.databases.DatabaseFilms;
 import cz.muni.fi.pv256.movio.uco410422.fragments.DetailFilmFragment;
+import cz.muni.fi.pv256.movio.uco410422.fragments.InitFragment;
 import cz.muni.fi.pv256.movio.uco410422.fragments.ListFilmFragment;
 import cz.muni.fi.pv256.movio.uco410422.models.Film;
 import cz.muni.fi.pv256.movio.uco410422.services.DownloadService;
@@ -30,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     private DetailFilmFragment detailFilmFragment;
     private DatabaseFilms dbFilms;
     private Bundle bundle;
+    private int initScreen = 0;
+    private Muni muni;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +62,8 @@ public class MainActivity extends AppCompatActivity {
 
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList("Films", films);
-        bundle.putInt("Position", -1);
+
+        bundle.putInt("Position", muni.getInstance().getFilmSelected());
 
 
         if(getResources().getBoolean(R.bool.dual_pane)){
@@ -64,10 +72,17 @@ public class MainActivity extends AppCompatActivity {
             fragmentTransaction.replace(R.id.fragmentListLayout, listFilmFragment);
             fragmentTransaction.addToBackStack(null);
 
-            DetailFilmFragment detailFilmFragment = new DetailFilmFragment();
-            detailFilmFragment.setArguments(bundle);
-            fragmentTransaction.add(R.id.fragmentDetailLayout, detailFilmFragment, "detail");
-            fragmentTransaction.commit();
+            if (initScreen == 0){
+                InitFragment initFragment = new InitFragment();
+                fragmentTransaction.add(R.id.fragmentDetailLayout, initFragment, "detail");
+                fragmentTransaction.commit();
+                initScreen = 1;
+            }
+            else {
+                DetailFilmFragment detailFilmFragment = new DetailFilmFragment();
+                detailFilmFragment.setArguments(bundle);
+                fragmentTransaction.add(R.id.fragmentDetailLayout, detailFilmFragment, "detail");
+                fragmentTransaction.commit();}
         }
         else{
 
@@ -110,6 +125,8 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.menu_switch) {
             if (item.getTitle().equals("Favorites")){
                 mFilms = (ArrayList<Film>) dbFilms.getAllFilms();
+                muni.getInstance().setFilmSelected(-1);
+                initScreen = 0;
                 init(mFilms);
                 item.setTitle("Discover");
             }

@@ -15,6 +15,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import cz.muni.fi.pv256.movio.uco410422.Muni;
 import cz.muni.fi.pv256.movio.uco410422.Network.Connections;
 import cz.muni.fi.pv256.movio.uco410422.R;
 import cz.muni.fi.pv256.movio.uco410422.adapters.FilmAdapter;
@@ -32,6 +33,7 @@ public class ListFilmFragment extends Fragment {
 	private FilmAdapter filmAdapter;
 	private DatabaseFilms dbFilms;
 	private static boolean shown = false;
+	private Muni muni;
 
 	@Nullable
 	@Override
@@ -79,7 +81,8 @@ public class ListFilmFragment extends Fragment {
 				DetailFilmFragment detailFilmFrag = new DetailFilmFragment();
 				FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
 				Bundle bundle = new Bundle();
-				bundle.putInt("Position", position);
+				muni.getInstance().setFilmSelected(position);
+				bundle.putInt("Position", muni.getInstance().getFilmSelected());
 				bundle.putParcelableArrayList("Films", mFilms);
 				detailFilmFrag.setArguments(bundle);
 				if (getActivity().getResources().getBoolean(R.bool.dual_pane)) {
